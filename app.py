@@ -53,7 +53,7 @@ class Settings(Base):
 
 class TokenHolder():
     def __init__(self):
-        self.q = deque(maxlen=10)
+        self.q = deque(maxlen=5)
 
     def add_token(self, token):
         self.q.append(token)

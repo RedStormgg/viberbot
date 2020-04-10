@@ -114,7 +114,7 @@ def send_question(viber_id):
         session.close()
         return TextMessage(text=f'Правильно отвечено: {temp_correct_answers} из {settings[0]}\n '
                                 f'Выучено слов: {select_query2}\n'
-                                f'Время прохождения теста: {str(select_query[3])[:16]}\n ',
+                                f'Время прохождения теста: {str(select_query[3])}\n ',
                            keyboard=KEYBOARD1, tracking_data='tracking_data')
     else:
         temp_answers = []

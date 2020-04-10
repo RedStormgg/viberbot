@@ -23,13 +23,6 @@ KEYBOARD3 = {
             "BgColor": "#7FFFD4",
             "ActionBody": "Приступить к изучению",
             "Text": "Приступить к изучению"
-        },
-        {
-            "Columns": 6,
-            "Rows": 1,
-            "BgColor": "#7FFFD4",
-            "ActionBody": "Отложить изучение",
-            "Text": "Отложить изучение"
         }
     ]
 }

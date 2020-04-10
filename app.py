@@ -99,7 +99,7 @@ def send_question(viber_id):
     settings = session.query(Settings.count_words, Settings.count_to_learn).filter(Settings.id_set == 1).one()
     session.close()
 
-    if select_query[0] > settings[0]:
+    if select_query[0] >= settings[0]:
         temp_correct_answers = select_query[1]
         session = Session()
         update_query = session.query(Users).filter(Users.viber_id == viber_id).one()
@@ -112,10 +112,11 @@ def send_question(viber_id):
         select_query2 = session.query(Learning.word).filter(Learning.user_id == select_query[2]).filter(
             Learning.right_answer >= settings[1]).count()
         session.close()
-        return TextMessage(text=
-                                "Верных слов: "+ temp_correct_answers + "из" + settings[0] + "\n" +
-                                "Выучено слов: "+ select_query2 + "\n" +
-                                "Длительность теста: " + str(select_query[3])[:16] + "\n",
+        return TextMessage(text=f'У вас {temp_correct_answers} верных из {settings[0]}. '
+                                f'Выучено: {select_query2} слов. '
+                                f'Осталось выучить {50 - select_query2} слов. '
+                                f'Время прохождения теста: {str(select_query[3])[:16]}. '
+                                f'Хотите ещё раз попробовать?',
                            keyboard=KEYBOARD1, tracking_data='tracking_data')
     else:
         temp_answers = []
@@ -154,7 +155,7 @@ def send_question(viber_id):
                              'answer': f"{temp_answers[i]}"}
             KEYBOARD2['Buttons'][i]['Text'] = f'{temp_answers[i]}'
             KEYBOARD2['Buttons'][i]['ActionBody'] = f'{temp_question}'
-        return TextMessage(text=f'{select_query[0] + 1}.Как перевести слово {question["word"]}?',
+        return TextMessage(text=f'{select_query[0] + 1}.Как переводится слово {question["word"]}',
                            keyboard=KEYBOARD2, tracking_data='tracking_data')
 
 

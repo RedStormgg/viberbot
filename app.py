@@ -99,7 +99,7 @@ def send_question(viber_id):
     settings = session.query(Settings.count_words, Settings.count_to_learn).filter(Settings.id_set == 1).one()
     session.close()
 
-    if select_query[0] >= settings[0]:
+    if select_query[0] < settings[0]:
         temp_correct_answers = select_query[1]
         session = Session()
         update_query = session.query(Users).filter(Users.viber_id == viber_id).one()

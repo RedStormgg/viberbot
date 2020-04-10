@@ -357,5 +357,5 @@ def incoming():
 
 
 if __name__ == '__main__':
-PORT = int(environ.get("PORT", "8443"))
-app.run(host='0.0.0.0', debug=False, port=PORT) 
+    PORT = int(environ.get("PORT", "8443"))
+    app.run(host='0.0.0.0', debug=False, port=PORT) 

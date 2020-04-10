@@ -1,6 +1,5 @@
 import json
 import random
-from os import environ
 from collections import deque
 from datetime import datetime
 from Settings import TOKEN, WEBHOOK
@@ -12,12 +11,13 @@ from sqlalchemy.pool import NullPool
 from viberbot import Api
 from viberbot.api.bot_configuration import BotConfiguration
 from viberbot.api.viber_requests import ViberMessageRequest, ViberConversationStartedRequest
+from os import environ
 from viberbot.api.messages import (
     TextMessage
 )
 
 #engine = create_engine('sqlite:///mydb.db', echo=True)
-engine = create_engine('postgres://swjfygeaqoszbb:5793a39663698b2ab1f0d17275d4873089de8e76657f7172ccb3c40d810eba67@ec2-176-34-97-213.eu-west-1.compute.amazonaws.com:5432/d6gu081g5pfh3p', echo=True)
+engine = create_engine('postgres://zkbosawpzfrzoz:8ac27678214cec36b90b5d0611fff3bf256abef1b15cb9e74dcdb566cae1bbf0@ec2-176-34-97-213.eu-west-1.compute.amazonaws.com:5432/d893mhd39657ld', echo=True)
 Base = declarative_base()
 Session = sessionmaker(engine)
 
@@ -112,11 +112,10 @@ def send_question(viber_id):
         select_query2 = session.query(Learning.word).filter(Learning.user_id == select_query[2]).filter(
             Learning.right_answer >= settings[1]).count()
         session.close()
-        return TextMessage(text=f'У вас {temp_correct_answers} верных из {settings[0]}. '
-                                f'Выучено: {select_query2} слов. '
-                                f'Осталось выучить {50 - select_query2} слов. '
-                                f'Время прохождения теста: {str(select_query[3])[:16]}. '
-                                f'Хотите ещё раз попробовать?',
+        return TextMessage(text=
+                                "Верных слов: "+ temp_correct_answers + "из" + settings[0] + "\n" +
+                                "Выучено слов: "+ select_query2 + "\n" +
+                                "Длительность теста: " + str(select_query[3])[:16] + "\n",
                            keyboard=KEYBOARD1, tracking_data='tracking_data')
     else:
         temp_answers = []
@@ -155,12 +154,12 @@ def send_question(viber_id):
                              'answer': f"{temp_answers[i]}"}
             KEYBOARD2['Buttons'][i]['Text'] = f'{temp_answers[i]}'
             KEYBOARD2['Buttons'][i]['ActionBody'] = f'{temp_question}'
-        return TextMessage(text=f'{select_query[0] + 1}.Как переводится слово {question["word"]}',
+        return TextMessage(text=f'{select_query[0] + 1}.Как перевести слово {question["word"]}?',
                            keyboard=KEYBOARD2, tracking_data='tracking_data')
 
 
 def check_answer(viber_id, user_answer):
-    check = 'Неверно'
+    check = 'Неправильный ответ'
     session = Session()
     select_query = session.query(Users.question, Users.user_id, Users.all_answers).filter(Users.viber_id == viber_id).one()
     session.close()
@@ -192,7 +191,7 @@ def check_answer(viber_id, user_answer):
         select_query2 = session.query(Learning.right_answer).filter(Learning.word == question['word']).filter(
             Learning.user_id == select_query[1]).one()
         session.close()
-        check = f'Верно. Количество правильных ответов: {select_query2[0]}'
+        check = f'Правильный ответ. Верных ответов: {select_query2[0]}'
     return TextMessage(text=check, keyboard=KEYBOARD2, tracking_data='tracking_data')
 
 
@@ -211,7 +210,7 @@ def update_time(viber_id):
     update_query.dt_last_answer = datetime.utcnow()
     session.commit()
     session.close()
-    return TextMessage(text='Хорошо, напомню тебе чуть позже!')
+    return TextMessage(text='Напоминание создано')
 
 
 def get_question_number(viber_id):
@@ -224,7 +223,7 @@ def get_question_number(viber_id):
 app = Flask(__name__)
 
 bot_configuration = BotConfiguration(
-    name='MyLearnEnglishBot4',
+    name='imdonebot',
     avatar='http://viber.com/avatar.jpg',
     auth_token=TOKEN
 )
@@ -260,7 +259,7 @@ def accept():
     update_query.count_to_learn = count_to_learn
     session.commit()
     session.close()
-    return 'Настройки сохранены!'
+    return 'Настройки сохранены'
 
 
 with open("english_words.json", "r", encoding='utf-8') as f:
@@ -273,8 +272,8 @@ KEYBOARD1 = {
             "Columns": 6,
             "Rows": 1,
             "BgColor": "#e6f5ff",
-            "ActionBody": "Поехали!",
-            "Text": "Поехали!"
+            "ActionBody": "Приступить к изучению",
+            "Text": "Приступить к изучению"
         }
     ]
 }
@@ -285,29 +284,29 @@ KEYBOARD2 = {
         {
             "Columns": 3,
             "Rows": 1,
-            "BgColor": "#e6f5ff"
+            "BgColor": "#6495ED"
         },
         {
             "Columns": 3,
             "Rows": 1,
-            "BgColor": "#e6f5ff"
+            "BgColor": "#6495ED"
         },
         {
             "Columns": 3,
             "Rows": 1,
-            "BgColor": "#e6f5ff"
+            "BgColor": "#6495ED"
         },
         {
             "Columns": 3,
             "Rows": 1,
-            "BgColor": "#e6f5ff"
+            "BgColor": "#6495ED"
         },
         {
             "Columns": 6,
             "Rows": 1,
-            "BgColor": "#e6f5ff",
-            "ActionBody": "Показать пример",
-            "Text": "Показать пример"
+            "BgColor": "#7B68EE",
+            "ActionBody": "Пример использования",
+            "Text": "Пример использования"
         }
     ]
 }
@@ -315,8 +314,8 @@ KEYBOARD2 = {
 
 @app.route('/incoming', methods=['POST'])
 def incoming():
-    #Base.metadata.create_all(engine)
-    #add_settings()
+    Base.metadata.create_all(engine)
+    add_settings()
     viber_request = viber.parse_request(request.get_data())
     print(viber_request)
     if isinstance(viber_request, ViberConversationStartedRequest):
@@ -324,7 +323,9 @@ def incoming():
         new_current_id = viber_request.user.id
         add_user(new_current_id)
         viber.send_messages(viber_request.user.id, [
-            TextMessage(text='Привет! Этот бот предназначен для заучивания английских слов! Нажимай кнопку "Поехали"!',
+            TextMessage(text="Привет, "+ user_id + "!/n" +
+            "С помощью этого бота ты выучишь английские слова./n" +
+            "Для прохождения теста нажми кнопку 'Приступить к изучению'/n",
                         keyboard=KEYBOARD1, tracking_data='tracking_data')
         ])
     if isinstance(viber_request, ViberMessageRequest):
@@ -337,13 +338,13 @@ def incoming():
                 text = message.text
                 print(text)
                 # чтение введёного текста
-                if text == "Поехали!":
+                if text == "Приступить к изучению":
                     bot_response = send_question(current_id)
                     viber.send_messages(current_id, bot_response)
-                elif text == "Показать пример":
+                elif text == "Пример использования":
                     bot_response = send_example(current_id)
                     viber.send_messages(current_id, bot_response)
-                elif text == "Отложить":
+                elif text == "Отложить изучение":
                     bot_response = update_time(current_id)
                     viber.send_messages(current_id, bot_response)
                 else:

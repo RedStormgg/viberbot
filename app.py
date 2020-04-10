@@ -112,11 +112,9 @@ def send_question(viber_id):
         select_query2 = session.query(Learning.word).filter(Learning.user_id == select_query[2]).filter(
             Learning.right_answer >= settings[1]).count()
         session.close()
-        return TextMessage(text=f'У вас {temp_correct_answers} верных из {settings[0]}. '
-                                f'Выучено: {select_query2} слов. '
-                                f'Осталось выучить {50 - select_query2} слов. '
-                                f'Время прохождения теста: {str(select_query[3])[:16]}. '
-                                f'Хотите ещё раз попробовать?',
+        return TextMessage(text="Правильно отвечено: " + temp_correct_answers + "из"+ settings[0]} + "\n" +
+                                "Выучено слов: " + select_query2 + "\n" +
+                                "Время прохождения теста: "+ str(select_query[3])[:16] + "\n",
                            keyboard=KEYBOARD1, tracking_data='tracking_data')
     else:
         temp_answers = []
@@ -275,6 +273,13 @@ KEYBOARD1 = {
             "BgColor": "#e6f5ff",
             "ActionBody": "Приступить к изучению",
             "Text": "Приступить к изучению"
+        }
+        {
+            "Columns": 6,
+            "Rows": 1,
+            "BgColor": "#e6f5ff",
+            "ActionBody": "Отложить изучение",
+            "Text": "Отложить изучение"
         }
     ]
 }

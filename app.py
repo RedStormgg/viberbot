@@ -16,7 +16,7 @@ from viberbot.api.messages import (
 )
 
 #engine = create_engine('sqlite:///mydb.db', echo=True)
-engine = create_engine('postgres://gqutbevnsvfmid:611a23a7bd801038ed692b69598365dc5f6517ebef7a280e187c7d5f088e5d90@ec2-54-75-231-215.eu-west-1.compute.amazonaws.com:5432/d6nk2rsesg8i4r', echo=True)
+engine = create_engine('postgres://zkbosawpzfrzoz:8ac27678214cec36b90b5d0611fff3bf256abef1b15cb9e74dcdb566cae1bbf0@ec2-176-34-97-213.eu-west-1.compute.amazonaws.com:5432/d893mhd39657ld', echo=True)
 Base = declarative_base()
 Session = sessionmaker(engine)
 

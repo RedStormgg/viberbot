@@ -350,7 +350,7 @@ def incoming():
                 elif text == "Пример использования":
                     bot_response = send_example(current_id)
                     viber.send_messages(current_id, bot_response)
-                elif text == "Отложить изучение":
+                elif text == "Отложить":
                     bot_response = update_time(current_id)
                     viber.send_messages(current_id, bot_response)
                 else:

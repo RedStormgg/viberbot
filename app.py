@@ -116,7 +116,7 @@ def send_question(viber_id):
                                 "Выучено слов: " + select_query2 + "\n" +
                                 "Время прохождения теста: "+ str(select_query[3])[:16] + "\n",
                            keyboard=KEYBOARD1, tracking_data='tracking_data')
-    else:
+     else:
         temp_answers = []
         temp_correct_answer = 100
         question = {}

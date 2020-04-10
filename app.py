@@ -322,7 +322,7 @@ def incoming():
         new_current_id = viber_request.user.id
         add_user(new_current_id)
         viber.send_messages(viber_request.user.id, [
-            TextMessage(text="Привет, "+ user_id "!/n" +
+            TextMessage(text="Привет, "+ user_id + "!/n" +
             "С помощью этого бота ты выучишь английские слова./n" +
             "Для прохождения теста нажми кнопку 'Приступить к изучению'/n",
                         keyboard=KEYBOARD1, tracking_data='tracking_data')

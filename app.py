@@ -53,7 +53,7 @@ class Settings(Base):
 
 class TokenHolder():
     def __init__(self):
-        self.q = deque(maxlen=5)
+        self.q = deque(maxlen=10)
 
     def add_token(self, token):
         self.q.append(token)
@@ -81,7 +81,7 @@ def add_user(viber_id):
 def add_settings():
     session = Session()
     try:
-        session.add(Settings(id_set=1, remind_time=360000, count_words=10, count_to_learn=5))
+        session.add(Settings(id_set=1, remind_time=360000, count_words=5, count_to_learn=5))
         session.commit()
         session.close()
     except:
@@ -113,9 +113,9 @@ def send_question(viber_id):
             Learning.right_answer >= settings[1]).count()
         session.close()
         return TextMessage(text=
-                                "Верных слов: "+ temp_correct_answers + "из" + settings[0] + "\n" +
-                                "Выучено слов: "+ select_query2 + "\n" +
-                                "Длительность теста: " + str(select_query[3])[:16] + "\n",
+                                "Верных слов: "+ temp_correct_answers + "из" + settings[0] + "/n" +
+                                "Выучено слов: "+ select_query2 + "/n" +
+                                "Длительность теста: " + str(select_query[3])[:16] + "/n",
                            keyboard=KEYBOARD1, tracking_data='tracking_data')
     else:
         temp_answers = []

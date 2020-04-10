@@ -11,6 +11,7 @@ from sqlalchemy.pool import NullPool
 from viberbot import Api
 from viberbot.api.bot_configuration import BotConfiguration
 from viberbot.api.viber_requests import ViberMessageRequest, ViberConversationStartedRequest
+from os import environ
 from viberbot.api.messages import (
     TextMessage
 )

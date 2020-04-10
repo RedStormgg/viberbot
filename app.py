@@ -81,7 +81,7 @@ def add_user(viber_id):
 def add_settings():
     session = Session()
     try:
-        session.add(Settings(id_set=1, remind_time=15, count_words=5, count_to_learn=5))
+        session.add(Settings(id_set=1, remind_time=36000, count_words=5, count_to_learn=5))
         session.commit()
         session.close()
     except:

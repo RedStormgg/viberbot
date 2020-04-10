@@ -113,9 +113,9 @@ def send_question(viber_id):
             Learning.right_answer >= settings[1]).count()
         session.close()
         return TextMessage(text=
-                                "Верных слов: "+ temp_correct_answers + "из" + settings[0] + "/n" +
-                                "Выучено слов: "+ select_query2 + "/n" +
-                                "Длительность теста: " + str(select_query[3])[:16] + "/n",
+                                "Верных слов: "+ temp_correct_answers + "из" + settings[0] + "\n" +
+                                "Выучено слов: "+ select_query2 + "\n" +
+                                "Длительность теста: " + str(select_query[3])[:16] + "\n",
                            keyboard=KEYBOARD1, tracking_data='tracking_data')
     else:
         temp_answers = []
@@ -323,9 +323,9 @@ def incoming():
         new_current_id = viber_request.user.id
         add_user(new_current_id)
         viber.send_messages(viber_request.user.id, [
-            TextMessage(text="Привет!/n" +
-            "С помощью этого бота ты выучишь английские слова./n" +
-            "Для прохождения теста нажми кнопку 'Приступить к изучению'/n",
+            TextMessage(text="Привет!\n" +
+            "С помощью этого бота ты выучишь английские слова.\n" +
+            "Для прохождения теста нажми кнопку 'Приступить к изучению'\n",
                         keyboard=KEYBOARD1, tracking_data='tracking_data')
         ])
     if isinstance(viber_request, ViberMessageRequest):

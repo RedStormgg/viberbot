@@ -1,3 +1,3 @@
-web gunicorn app
+web: gunicorn app
 
 clock: python clock.py

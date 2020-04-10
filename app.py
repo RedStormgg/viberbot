@@ -112,7 +112,7 @@ def send_question(viber_id):
         select_query2 = session.query(Learning.word).filter(Learning.user_id == select_query[2]).filter(
             Learning.right_answer >= settings[1]).count()
         session.close()
-        return TextMessage(text="Правильно отвечено: " + temp_correct_answers + "из"+ settings[0]} + "\n" +
+        return TextMessage(text="Правильно отвечено: " + temp_correct_answers + "из"+ settings[0] + "\n" +
                                 "Выучено слов: " + select_query2 + "\n" +
                                 "Время прохождения теста: "+ str(select_query[3])[:16] + "\n",
                            keyboard=KEYBOARD1, tracking_data='tracking_data')
@@ -153,7 +153,7 @@ def send_question(viber_id):
                              'answer': f"{temp_answers[i]}"}
             KEYBOARD2['Buttons'][i]['Text'] = f'{temp_answers[i]}'
             KEYBOARD2['Buttons'][i]['ActionBody'] = f'{temp_question}'
-        return TextMessage(text=f'{select_query[0] + 1}.Как переводится слово {question["word"]}',
+        return TextMessage(text=f'{select_query[0] + 1}.Как перевести слово {question["word"]}',
                            keyboard=KEYBOARD2, tracking_data='tracking_data')
 
 

@@ -61,7 +61,7 @@ def timed_job():
 
 @sched.scheduled_job('interval', minutes=20)
 def awake_bot():
-    r = requests.get("https://viberbotlearningletters.herokuapp.com")
+    r = requests.get("https://redstormgg.herokuapp.com")
     if r.status_code == 200:
         print("Bot is awake")
 

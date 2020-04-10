@@ -167,7 +167,7 @@ def check_answer(viber_id, user_answer):
     session = Session()
     update_query = session.query(Users).filter(Users.viber_id == viber_id).one()
     update_query.all_answers += 1
-    update_query.dt_last_answer = datetime.msknow()
+    update_query.dt_last_answer = datetime.utcnow()
     session.commit()
     session.close()
 
